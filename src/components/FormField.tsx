@@ -1,4 +1,10 @@
-import type { ReactNode } from 'react'
+import { cloneElement, isValidElement, type ReactElement, type ReactNode } from 'react'
+
+type ControlProps = {
+  id?: string
+  'aria-describedby'?: string
+  'aria-invalid'?: boolean
+}
 
 export function FormField({
   id,
@@ -19,10 +25,18 @@ export function FormField({
     .filter(Boolean)
     .join(' ')
 
+  const control = isValidElement(children)
+    ? cloneElement(children as ReactElement<ControlProps>, {
+        id,
+        'aria-describedby': describedBy || undefined,
+        'aria-invalid': error ? true : undefined,
+      })
+    : children
+
   return (
     <div className="field">
       <label htmlFor={id}>{label}</label>
-      <div data-describedby={describedBy}>{children}</div>
+      {control}
       {hint ? (
         <span id={hintId} className="muted">
           {hint}
