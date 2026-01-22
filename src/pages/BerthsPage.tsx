@@ -1,5 +1,6 @@
 import { StatusPill } from '../components/StatusPill.tsx'
 import { useDocumentTitle } from '../hooks/useDocumentTitle.ts'
+import { occupantName } from '../lib/berths.ts'
 import { useHarbor } from '../state/HarborContext.tsx'
 
 export function BerthsPage() {
@@ -16,7 +17,7 @@ export function BerthsPage() {
       </div>
       <div className="berth-board">
         {state.berths.map((berth) => {
-          const occupant = state.vessels.find((vessel) => vessel.id === berth.currentVesselId)
+          const occupant = occupantName(berth, state.vessels)
           return (
             <article key={berth.id} className="card berth-card">
               <h2>{berth.name}</h2>
@@ -28,7 +29,7 @@ export function BerthsPage() {
               <p>
                 {occupant ? (
                   <>
-                    Occupied by <strong>{occupant.name}</strong>
+                    Occupied by <strong>{occupant}</strong>
                   </>
                 ) : (
                   'Empty'

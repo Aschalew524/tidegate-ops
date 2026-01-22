@@ -5,6 +5,7 @@ import type {
   Movement,
   Vessel,
 } from '../types/harbor.ts'
+import { occupancyRate } from './berths.ts'
 import { countByStatus } from './vessels.ts'
 import { overdueInspections } from './inspections.ts'
 
@@ -30,8 +31,6 @@ export function buildSnapshot(
   },
 ): HarborSnapshot {
   const vesselCounts = countByStatus(input.vessels)
-  const usableBerths = input.berths.filter((berth) => berth.status === 'open')
-  const occupied = usableBerths.filter((berth) => berth.currentVesselId).length
   return {
     alongside: vesselCounts.alongside,
     inbound: vesselCounts.inbound + vesselCounts.expected,
@@ -40,10 +39,7 @@ export function buildSnapshot(
     overdueInspections: overdueInspections(input.inspections, now).length,
     closedBerths: input.berths.filter((berth) => berth.status !== 'open').length,
     completedMovements: input.movements.filter((item) => item.status === 'completed').length,
-    occupancyPct:
-      usableBerths.length === 0
-        ? 0
-        : Math.round((occupied / usableBerths.length) * 100),
+    occupancyPct: occupancyRate(input.berths),
   }
 }
 
