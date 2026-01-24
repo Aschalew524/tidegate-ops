@@ -523,3 +523,21 @@ table.data th button {
     overflow: auto;
   }
 }
+
+@media print {
+  .sidebar,
+  .skip-link,
+  .topbar-meta,
+  .btn,
+  .btn-ghost,
+  .btn-danger {
+    display: none !important;
+  }
+  .shell {
+    display: block;
+  }
+  .card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
