@@ -21,7 +21,7 @@ const LINKS = [
 ]
 
 export function AppShell() {
-  const { state, now } = useHarbor()
+  const { state, dispatch, now } = useHarbor()
   const location = useLocation()
   const [theme, setTheme] = useState<ThemeName>('dark')
   const [density, setDensity] = useState<Density>('comfortable')
@@ -68,6 +68,14 @@ export function AppShell() {
   useEffect(() => {
     setPaletteOpen(false)
   }, [location.pathname])
+
+  useEffect(() => {
+    if (!state.announcement) return
+    const id = window.setTimeout(() => {
+      dispatch({ type: 'clear-announcement' })
+    }, 8000)
+    return () => window.clearTimeout(id)
+  }, [dispatch, state.announcement])
 
   return (
     <>
