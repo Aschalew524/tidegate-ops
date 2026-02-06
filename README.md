@@ -35,7 +35,7 @@ npm run build
 - **Crew** — duty flags and certificate expiry
 - **Reports** — printable snapshot of the watch
 
-Keyboard: `Ctrl/Cmd+K` opens the jump palette. `?` lists watch keys.
+Keyboard: `Ctrl/Cmd+K` opens the jump palette. `?` lists watch keys. Table rows support Space to select and Enter to open details. Status is never color-only; every pill also has a text label.
 
 ## Domain rules worth knowing
 
